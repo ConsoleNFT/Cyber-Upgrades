@@ -198,6 +198,20 @@
 	const center = new THREE.Vector3(0, 1, 0);
 	
 	
+	let xhrTotal = 3119403;
+	
+	if (rarity == 1) {
+		xhrTotal = 2498177;
+	}
+	if (rarity == 2) {
+		xhrTotal = 3088764;
+	}
+	if (rarity == 3) {
+		xhrTotal = 4675221;
+	}
+	if (rarity == 4) {
+		xhrTotal = 6457548;
+	}
 	
 	
 	
@@ -282,11 +296,11 @@
 			},
 			// called while loading is progressing
 			function ( xhr ) {
-
-				console.log( ( xhr.loaded / xhr.total * 100 ) + '% loaded' );
+			
+				console.log( ( xhr.loaded / xhrTotal * 100 ) + '% loaded' );
 				
-				document.getElementById("loader").style.width = (xhr.loaded / xhr.total * 100) + "%";
-				document.getElementById("loader_percentage").textContent = Math.round((xhr.loaded / xhr.total * 100) * 100) / 100;
+				document.getElementById("loader").style.width = (xhr.loaded / xhrTotal * 100) + "%";
+				document.getElementById("loader_percentage").textContent = Math.round((xhr.loaded / xhrTotal * 100) * 100) / 100;
 				
 				if ((xhr.loaded / xhr.total * 100) == 100) {
 					
@@ -665,7 +679,10 @@
 		
 	</div>
 
-	<video id="video" playsinline webkit-playsinline muted loop autoplay width="600" height="250" src="video.mp4" style="display: none" crossorigin="anonymous"></video>	
+	<video id="video" playsinline webkit-playsinline muted loop autoplay width="600" height="250" src="video.mp4" style="display: none" crossorigin="anonymous"></video>
+
+
+	<script type="text/javascript" src="scripts.js"></script>	
 
 </body>
 </html>
