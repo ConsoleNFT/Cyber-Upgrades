@@ -1,0 +1,674 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+    <title>Console NFT Cyber Upgrades</title>
+	<link rel="stylesheet" href="style.css">
+	<script type="module">
+
+	import * as THREE from 'https://threejsfundamentals.org/threejs/resources/threejs/r115/build/three.module.js';
+	import { GLTFLoader } from 'https://threejsfundamentals.org/threejs/resources/threejs/r115/examples/jsm/loaders/GLTFLoader.js';
+	import { DRACOLoader } from 'https://threejsfundamentals.org/threejs/resources/threejs/r115/examples/jsm/loaders/DRACOLoader.js';
+	import { TTFLoader } from 'https://threejsfundamentals.org/threejs/resources/threejs/r115/examples/jsm/loaders/TTFLoader.js';
+	import { RGBELoader } from 'https://threejsfundamentals.org/threejs/resources/threejs/r115/examples/jsm/loaders/RGBELoader.js';
+	import { EffectComposer } from 'https://threejsfundamentals.org/threejs/resources/threejs/r115/examples/jsm/postprocessing/EffectComposer.js';
+	import { RenderPass } from 'https://threejsfundamentals.org/threejs/resources/threejs/r115/examples/jsm/postprocessing/RenderPass.js';
+	import { ShaderPass } from 'https://threejsfundamentals.org/threejs/resources/threejs/r115/examples/jsm/postprocessing/ShaderPass.js';
+	import { BloomPass } from 'https://threejsfundamentals.org/threejs/resources/threejs/r115/examples/jsm/postprocessing/BloomPass.js';
+	import { UnrealBloomPass } from 'https://threejsfundamentals.org/threejs/resources/threejs/r115/examples/jsm/postprocessing/UnrealBloomPass.js';
+	import { FXAAShader } from 'https://threejsfundamentals.org/threejs/resources/threejs/r115/examples/jsm/shaders/FXAAShader.js';
+	
+	/*
+	import * as THREE from 'https://cdn.skypack.dev/three@0.115.0/build/three.module.js';
+	import { OrbitControls } from 'https://cdn.skypack.dev/three@0.115.0/examples/jsm/controls/OrbitControls.js';
+	import { GLTFLoader } from 'https://cdn.skypack.dev/three@0.115.0/examples/jsm/loaders/GLTFLoader.js';
+	import { EffectComposer } from 'https://cdn.skypack.dev/three@0.115.0/examples/jsm/postprocessing/EffectComposer.js';
+	import { RenderPass } from 'https://cdn.skypack.dev/three@0.115.0/examples/jsm/postprocessing/RenderPass.js';
+	import { ShaderPass } from 'https://cdn.skypack.dev/three@0.115.0/examples/jsm/postprocessing/ShaderPass.js';
+	import { FilmPass } from 'https://cdn.skypack.dev/three@0.115.0/examples/jsm/postprocessing/FilmPass.js';
+	import { BloomPass } from 'https://cdn.skypack.dev/three@0.115.0/examples/jsm/postprocessing/BloomPass.js';
+	import { GlitchPass } from 'https://cdn.skypack.dev/three@0.115.0/examples/jsm/postprocessing/GlitchPass.js';
+	import { RGBShiftShader } from 'https://cdn.skypack.dev/three@0.115.0/examples/jsm/shaders/RGBShiftShader.js';
+	*/
+	
+	
+	
+	function getUrlVars() {
+		var vars = {};
+		var parts = window.location.href.replace(/[?&]+([^=&]+)=([^&]*)/gi,    
+		function(m,key,value) {
+		  vars[key] = value;
+		});
+		return vars;
+	}
+	
+	var DNA = getUrlVars()["dna"];
+	
+	if (DNA == undefined) {
+		DNA = "000000000";
+	}
+	
+	var Token_ID = getUrlVars()["id"];
+	
+	if (Token_ID == undefined) {
+		Token_ID = "-";
+	}
+	
+	var rarity = DNA[0]; // rarity
+	var level = DNA[1]; // level
+	var firstStatIndex = DNA[2]; // firstStatIndex
+	var firstStatValue = DNA[3]; // firstStatValue
+	var secondStatIndex = DNA[4]; // secondStatIndex
+	var secondStatValue = DNA[5]; // secondStatValue
+	var firstAugmentIndex = DNA[6]; // firstAugment
+	var secondAugmentIndex = DNA[7]; // secondAugment
+	var airdrops = DNA[8]; // secondAugment
+	
+	var firstStat = [
+        "Health",
+        "Strength",
+        "Speed",
+        "Accuracy",
+        "Intelligence",
+        "Tech",
+        "Hack speed",
+        "SQL skill",
+        "Network",
+        "DNA",
+        "De-auth",
+        "Pwd cracking",
+        "XSS forgery",
+        "Decrypt",
+        "Cryptography"
+    ];
+	
+	var secondStat = [
+        "Lockpicking",
+        "Regeneration",
+        "Armor",
+        "Backpack",
+        "Intelligence",
+        "Charge",
+        "Damage boost",
+        "Reflexes",
+        "Radar",
+        "Keymaster",
+        "Pickpocket",
+        "EMP shield",
+        "EMP power",
+        "Run silent",
+        "Nanotech"
+    ];
+	
+	var firstAugment = [
+        "Scrapper",
+        "Bionic Arms",
+        "Detoxifier",
+        "Bionic Lungs",
+        "Hardened Bones",
+        "Berserk",
+        "Blood pump",
+        "Edge runner",
+        "Adrenaline Pump",
+        "Bloodware",
+        "Cyber Joints",
+        "Cloaking",
+        "Nanobots",
+        "Synthetic Heart",
+        "?"
+    ];
+	
+	var secondAugment = [
+        "Nightvision",
+        "Titan Knuckles",
+        "Cyber Legs",
+        "Cyber Arms",
+        "Reflex Boost",
+        "Lizard skin",
+        "Titanium Bones",
+        "Echolocation",
+        "Thermal vision",
+        "X-ray Vision",
+        "Shapeshifter",
+        "Exoskeleton",
+        "Stealth kit",
+        "Double Heart",
+        "?"
+    ];
+	
+	
+	let scene, renderer, camera, composer;
+	let composer_2;
+	let bloomPass;
+	let mixer;
+	let clock;
+	let el;
+	let text;
+	let textOffset;
+	let textOffsetBlack;
+	let textOffsetValue = 0.14;
+	let firstTextLength;
+	
+	var texture_0;
+	var material_0;
+	var texture_1;
+	var material_1;
+	
+	let group;
+
+	var textPosition = [-2.4, 0.25, -3.9];
+	
+	var textMessages = ['Console NFT'];
+	
+	textMessages.push(firstStat[firstStatIndex] + " +" + firstStatValue);
+	textMessages.push(secondStat[secondStatIndex] + " +" + secondStatValue);
+	textMessages.push(firstAugment[firstAugmentIndex]);
+	textMessages.push(secondAugment[secondAugmentIndex]);
+	textMessages.push("Airdrops +" + airdrops);
+	
+	console.log(textMessages);
+
+	var textColors = [0x39FF68, 0x82BEFA, 0xEE8840, 0x39FF68, 0x82BEFA, 0xEE8840];
+	
+	var textSize = 0.5;
+	
+	let PI_HALF = Math.PI / 2;
+	
+	let
+	  mouse = {
+		x: 0,
+		y: 0 },
+
+	  mouseOnDown = {
+		x: 0,
+		y: 0 },
+
+	  rotation = {
+		x: Math.PI * 1.9,
+		y: Math.PI / 6 },
+
+	  target = {
+		x: Math.PI * 1.9,
+		y: Math.PI / 6 },
+
+	  targetOnDown = {
+		x: 0,
+		y: 0 },
+	  distance = 12;
+	const center = new THREE.Vector3(0, 1, 0);
+	
+	
+	
+	
+	
+	function init() {
+		
+	  scene = new THREE.Scene();
+	  scene.background = new THREE.Color( 0xffffff ); // Default
+	  
+	  // Renderer
+	  renderer = new THREE.WebGLRenderer({
+		alpha: true,
+		antialias: true,
+		powerPreference: "high-performance"
+	  });
+	  
+	  renderer.autoClear = false;
+	  renderer.setPixelRatio(window.devicePixelRatio);
+	  renderer.outputEncoding = THREE.sRGBEncoding;
+	  renderer.toneMapping = THREE.NoToneMapping;
+	  renderer.shadowMap.enabled = true;
+	  
+	  
+	  
+	  renderer.setSize(window.innerWidth, window.innerHeight)
+	  document.body.appendChild(renderer.domElement)
+	  el = renderer.domElement;
+
+	  camera = new THREE.PerspectiveCamera(70, window.innerWidth / window.innerHeight, 0.1, 1000)
+	  camera.position.set(10, 10, 10)
+	  camera.lookAt(scene.position)
+	  // camera.layers.enable(1);
+	  
+	  	  
+	  const pmremGenerator = new THREE.PMREMGenerator(renderer);
+	  
+	  new RGBELoader()
+		.setDataType(THREE.UnsignedByteType)
+		.load('venice_sunset_1k.hdr', (hdrEquiRect, textureData) => {
+				var envMap = pmremGenerator.fromEquirectangular(hdrEquiRect).texture;
+				pmremGenerator.compileCubemapShader();
+
+				// scene.background = envMap;
+				scene.environment = envMap;
+				
+				renderer.toneMappingExposure = 0.5;
+				
+				hdrEquiRect.dispose();
+				pmremGenerator.dispose();
+		});
+		
+		
+		group = new THREE.Group();
+	  
+		// Instantiate a loader
+		const loader = new GLTFLoader();
+
+		// Optional: Provide a DRACOLoader instance to decode compressed mesh data
+		const dracoLoader = new DRACOLoader();
+		dracoLoader.setDecoderPath('https://raw.githubusercontent.com/mrdoob/three.js/dev/examples/js/libs/draco/'); // use a full url path
+		loader.setDRACOLoader( dracoLoader );
+
+		// Load a glTF resource
+		loader.load('models/' + rarity + '.gltf',
+			function ( gltf ) {
+				gltf.scene.traverse(function (node) {
+					if (node.isMesh) {
+						node.material.flatShading = false; // r87+
+						node.material.smoothShading = true;
+						node.material.needsUpdate = true;
+						node.castShadow = true;
+						node.receiveShadow = true;
+						node.geometry.computeVertexNormals();
+					  }
+					  
+				})
+				mixer = new THREE.AnimationMixer( gltf.scene );
+				for (let i = 0; i < gltf.animations.length; i++) {
+					mixer.clipAction( gltf.animations[i] ).play();
+				}
+				group.add( gltf.scene );
+				gltf.scene.position.z = -4.5;
+			},
+			// called while loading is progressing
+			function ( xhr ) {
+
+				console.log( ( xhr.loaded / xhr.total * 100 ) + '% loaded' );
+				
+				document.getElementById("loader").style.width = (xhr.loaded / xhr.total * 100) + "%";
+				document.getElementById("loader_percentage").textContent = Math.round((xhr.loaded / xhr.total * 100) * 100) / 100;
+				
+				if ((xhr.loaded / xhr.total * 100) == 100) {
+					
+					document.getElementById("loading").style.display = 'none';
+				}
+				
+			},
+			// called when loading has errors
+			function ( error ) {
+
+				console.log( 'An error happened' );
+
+			}
+		);
+		
+		
+		// floor
+		var planeGeometry = new THREE.PlaneGeometry( 500, 500 );
+		planeGeometry.rotateX( - Math.PI / 2 );
+
+		var planeMaterial = new THREE.ShadowMaterial({ color: 0x00 });
+		planeMaterial.opacity = 0.2;
+
+		var plane = new THREE.Mesh( planeGeometry, planeMaterial );
+		plane.position.y = -4;
+		plane.receiveShadow = true;
+		scene.add( plane );
+		
+		
+		// lights
+		var ambientLightColor = new THREE.Color('hsl(100, 0%, 100%)');
+		var ambientLightIntensity = 5.2;
+		var directionalLightTopColor = new THREE.Color('hsl(180, 100%, 50%)');
+		
+		if (rarity == 1) {
+			ambientLightColor = new THREE.Color('hsl(0, 0%, 100%)');
+			directionalLightTopColor = new THREE.Color('hsl(0, 100%, 50%)');
+			ambientLightIntensity = 2;
+		}
+		if (rarity == 2) {
+			ambientLightColor = new THREE.Color('hsl(90, 0%, 100%)');
+			directionalLightTopColor = new THREE.Color('hsl(180, 100%, 50%)');
+			ambientLightIntensity = 2;
+		}
+		if (rarity == 3) {
+			ambientLightColor = new THREE.Color('hsl(310, 0%, 100%)');
+			directionalLightTopColor = new THREE.Color('hsl(310, 100%, 50%)');
+			ambientLightIntensity = 4;
+		}
+		if (rarity == 4) {
+			ambientLightColor = new THREE.Color('hsl(50, 0%, 100%)');
+			directionalLightTopColor = new THREE.Color('hsl(50, 100%, 50%)');
+			ambientLightIntensity = 1.2;
+		}
+		
+		let ambientLight = new THREE.AmbientLight(ambientLightColor, ambientLightIntensity);
+		scene.add(ambientLight);
+
+		let directionalLightTop = new THREE.DirectionalLight(directionalLightTopColor, 0.15);
+		directionalLightTop.position.set(0, 100, 0);
+		scene.add(directionalLightTop);
+		
+		directionalLightTop.shadow.camera = new THREE.OrthographicCamera( -10, 10, 10, -10, 0.5, 1000 ); 
+		directionalLightTop.shadow.mapSize.width = 2048;
+		directionalLightTop.shadow.mapSize.height = 2048;
+		directionalLightTop.castShadow = true;
+		directionalLightTop.shadow.radius = 50;
+		
+	
+	
+		// Background Zeros and Ones, like Matrix
+		const distance = 50;
+		
+		texture_0 = new THREE.TextureLoader().load( 'numbers/0' + rarity + '.png' );
+		material_0 = new THREE.SpriteMaterial( { map: texture_0 } );
+
+		texture_1 = new THREE.TextureLoader().load( 'numbers/1' + rarity + '.png' );
+		material_1 = new THREE.SpriteMaterial( { map: texture_1 } );
+
+		for (let i = 0; i < 500; i++) {
+			
+			let x = -1 + Math.random() * 2;
+			let y = -1 + Math.random() * 2;
+			let z = -1 + Math.random() * 2;
+			const d = 1 / Math.sqrt(Math.pow(x, 2) + Math.pow(y, 2) + Math.pow(z, 2));
+			
+			x *= d;
+			y *= d;
+			z *= d;
+			
+			if (Math.round(Math.random()) == 0) {
+				var sprite = new THREE.Sprite( material_0 );
+			}
+			else {
+				var sprite = new THREE.Sprite( material_1 );
+			}
+			sprite.position.set(x * distance, y * distance, z * distance);
+			scene.add( sprite );
+			
+			animateSprite(sprite);
+			
+		}
+
+	var fontLoader = new THREE.FontLoader();
+	fontLoader.load( 'Audiowide_Regular.json', function ( font ) {
+
+		// init setup
+		var textsShape = font.generateShapes( textMessages[0], textSize );
+		var textsGeometry = new THREE.ShapeBufferGeometry( textsShape );    
+		var textsMaterial = new THREE.MeshPhongMaterial({color: textColors[0], side: THREE.BackSide});
+
+		text = new THREE.Mesh(textsGeometry, textsMaterial);
+		text.position.set(textPosition[0], textPosition[1], textPosition[2]);
+		text.rotation.x = THREE.Math.degToRad(-90);
+		text.name = "text";
+		
+		group.add(text);
+		
+		
+		var textsWireframeMaterial = new THREE.MeshPhongMaterial({color: textColors[0], side: THREE.BackSide, wireframe: true});
+			
+		textOffset = new THREE.Mesh(textsGeometry, textsWireframeMaterial);
+		textOffset.position.set(textPosition[0], textPosition[1] + textOffsetValue, textPosition[2]);
+		textOffset.rotation.x = THREE.Math.degToRad(-90);
+		textOffset.name = "text";
+		
+		group.add(textOffset);
+		
+		
+		var textsBlackMaterial = new THREE.MeshPhongMaterial({color: 0x000000, transparent: true, opacity: 0.3});
+			
+		textOffsetBlack = new THREE.Mesh(textsGeometry, textsBlackMaterial);
+		textOffsetBlack.position.set(textPosition[0], textPosition[1] - textOffsetValue, textPosition[2]);
+		textOffsetBlack.rotation.x = THREE.Math.degToRad(-90);
+		textOffsetBlack.name = "text";
+		
+		group.add(textOffsetBlack);
+		
+		// Animation
+		changingText(font, text, 0);
+		
+	}); 
+	
+	
+	// Background screen
+	const video = document.getElementById('video');
+	video.play();
+
+	const videoTexture = new THREE.VideoTexture(video);
+	const videoMaterial =  new THREE.MeshBasicMaterial( {map: videoTexture, side: THREE.FrontSide, toneMapped: false} );
+	
+	var screenSize = new THREE.PlaneGeometry(6.25, 2.55);
+	var screenPositionX = 0;
+	var screenPositionY = 0.1;
+	var screenPositionZ = -4.25;
+	
+	if (rarity == 2) {
+		screenSize = new THREE.PlaneGeometry(7.95, 3.85);
+		screenPositionY = 0.18;
+	}
+	if (rarity == 3) {
+		screenSize = new THREE.PlaneGeometry(7.95, 3.85);
+		screenPositionY = 0.18;
+	}
+	if (rarity == 4) {
+		screenSize = new THREE.PlaneGeometry(7.95, 4);
+		screenPositionY = 0.18;
+		screenPositionZ = -4.35;
+	}
+	const screen = screenSize;
+	const videoScreen = new THREE.Mesh(screen, videoMaterial);
+	videoScreen.rotation.x = THREE.Math.degToRad(-90);
+	videoScreen.position.set(screenPositionX, screenPositionY, screenPositionZ);
+	
+	
+	group.add(videoScreen);
+	group.rotation.x = THREE.Math.degToRad(65);
+	group.position.z = 0.5;
+	
+	if (rarity == 2) {
+		group.scale.set(0.8,0.8,0.8);
+		group.position.y = 2;
+	}
+	if (rarity == 3) {
+		group.scale.set(0.75,0.75,0.75);
+		group.position.y = 2;
+	}
+	if (rarity == 4) {
+		group.scale.set(0.75,0.75,0.75);
+		group.position.y = 2;
+	}
+	
+	scene.add( group );
+		
+		// Postprocessing
+		composer = new EffectComposer( renderer );
+		composer.addPass(new RenderPass(scene, camera));
+		
+		// Events
+		el.addEventListener('mousedown', onMouseDown, false);
+		window.addEventListener('resize', onWindowResize, false);
+		
+		clock = new THREE.Clock();
+		
+	}
+	
+	function animateSprite(sprite) {
+
+		setTimeout(() => {
+			
+			if (Math.round(Math.random()) == 0) {
+				sprite.material = material_0;
+			}
+			else {
+				sprite.material = material_1;
+			}
+			
+			sprite.material.needsUpdate = true
+			
+			animateSprite(sprite);
+			
+		}, Math.floor(Math.random() * (500 - 100 + 1) + 100));
+		
+	}
+	
+	function changingText(font, textMesh, arrPosition) {
+		
+		if (arrPosition < textMessages.length - 1) {
+			arrPosition++;
+		}
+		else {
+			arrPosition = 0;
+		}
+
+		setTimeout(() => {
+			
+			// remove children
+			for (var i = group.children.length - 1; i >= 0; i--) {
+				if (group.children[i].name == "text") {
+					group.children[i].geometry.dispose();
+					group.remove(group.children[i]);
+				}
+			}
+
+			// create new, according to benchmarks the load is approximately the same
+			var textsShape = font.generateShapes( textMessages[arrPosition], textSize );
+			
+			var textsGeometry = new THREE.ShapeBufferGeometry( textsShape ); 
+			var textsMaterial = new THREE.MeshPhongMaterial({color: textColors[arrPosition]});
+
+			text = new THREE.Mesh(textsGeometry, textsMaterial);
+			
+			// get this text length
+			var box = new THREE.Box3().setFromObject( text );
+			
+			text.position.set(textPosition[0] + (2.4 - box.max.x / 2), textPosition[1], textPosition[2]);
+			text.rotation.x = THREE.Math.degToRad(-90);
+			text.name = "text";
+			// text.layers.enable(1);
+			
+			group.add(text);
+			
+			var textsWireframeMaterial = new THREE.MeshPhongMaterial({color: textColors[arrPosition], side: THREE.BackSide, wireframe: true});
+			
+			textOffset = new THREE.Mesh(textsGeometry, textsWireframeMaterial);
+			textOffset.position.set(textPosition[0] + (2.4 - box.max.x / 2), textPosition[1] + textOffsetValue, textPosition[2]);
+			textOffset.rotation.x = THREE.Math.degToRad(-90);
+			textOffset.name = "text";
+			// textOffset.layers.enable(1);
+			
+			group.add(textOffset);
+			
+			
+			var textsBlackMaterial = new THREE.MeshPhongMaterial({color: 0x000000, transparent: true, opacity: 0.3});
+			
+			textOffsetBlack = new THREE.Mesh(textsGeometry, textsBlackMaterial);
+			textOffsetBlack.position.set(textPosition[0] + (2.4 - box.max.x / 2), textPosition[1] - textOffsetValue, textPosition[2]);
+			textOffsetBlack.rotation.x = THREE.Math.degToRad(-90);
+			textOffsetBlack.name = "text";
+			// textOffsetBlack.layers.enable(1);
+			
+			group.add(textOffsetBlack);
+			
+			
+			changingText(font, text, arrPosition);
+			
+		}, 2000);
+		
+	}
+
+	function animate() {
+		
+		
+		if ( mixer ) mixer.update( clock.getDelta() );
+		
+		if (el.style.cursor != 'move') target.x += 0.00035;
+
+		rotation.x += (target.x - rotation.x) * 0.1;
+		rotation.y += (target.y - rotation.y) * 0.1;
+
+		camera.position.x = distance * Math.sin(rotation.x) * Math.cos(rotation.y);
+		camera.position.y = distance * Math.sin(rotation.y);
+		camera.position.z = distance * Math.cos(rotation.x) * Math.cos(rotation.y);
+
+		camera.lookAt(center);
+
+		
+		
+		requestAnimationFrame( animate );
+		composer.render();
+		
+	}
+	
+	  // -------------------------------------
+	  //   Interactivity
+	  // -------------------------------------
+
+	  function onMouseDown(event) {
+		event.preventDefault();
+
+		el.addEventListener('mouseup', onMouseUp, false);
+		el.addEventListener('mousemove', onMouseMove, false);
+		el.addEventListener('mouseout', onMouseOut, false);
+
+		mouseOnDown.x = -event.clientX;
+		mouseOnDown.y = event.clientY;
+
+		targetOnDown.x = target.x;
+		targetOnDown.y = target.y;
+
+		el.style.cursor = 'move';
+	  }
+
+	  function onMouseMove(event) {
+		mouse.x = -event.clientX;
+		mouse.y = event.clientY;
+
+		target.x = targetOnDown.x + (mouse.x - mouseOnDown.x) * 0.005;
+		target.y = targetOnDown.y + (mouse.y - mouseOnDown.y) * 0.005;
+		target.y = target.y > PI_HALF ? PI_HALF : target.y;
+		target.y = target.y < -PI_HALF ? -PI_HALF : target.y;
+	  }
+
+	  function onMouseUp(event) {
+		el.removeEventListener('mousemove', onMouseMove, false);
+		el.removeEventListener('mouseup', onMouseUp, false);
+		el.removeEventListener('mouseout', onMouseOut, false);
+		el.style.cursor = 'auto';
+	  }
+
+	  function onMouseOut(event) {
+		el.removeEventListener('mouseup', onMouseUp, false);
+		el.removeEventListener('mouseout', onMouseOut, false);
+	  }
+
+	  function onWindowResize(event) {
+		camera.aspect = window.innerWidth / window.innerHeight;
+		camera.updateProjectionMatrix();
+		renderer.setSize(window.innerWidth, window.innerHeight);
+	  }
+	
+		
+	init();
+	animate();
+	
+	</script>
+	
+</head>
+<body class="nft">
+
+	<div id="loading">
+		<div class="loader_text"><span id="loader_percentage">0</span>%</div>
+		<div class="loader_container">
+			<div id="loader"></div>
+		</div>
+		
+	</div>
+
+	<video id="video" playsinline webkit-playsinline muted loop autoplay width="600" height="250" src="video.mp4" style="display: none" crossorigin="anonymous"></video>
+
+
+	<script type="text/javascript" src="scripts.js"></script>	
+
+</body>
+</html>
