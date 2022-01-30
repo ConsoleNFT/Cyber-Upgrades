@@ -302,7 +302,7 @@
 				document.getElementById("loader").style.width = (xhr.loaded / xhrTotal * 100) + "%";
 				document.getElementById("loader_percentage").textContent = Math.round((xhr.loaded / xhrTotal * 100) * 100) / 100;
 				
-				if ((xhr.loaded / xhr.total * 100) == 100) {
+				if ((xhr.loaded / xhrTotal * 100) == 100) {
 					
 					document.getElementById("loading").style.display = 'none';
 				}
