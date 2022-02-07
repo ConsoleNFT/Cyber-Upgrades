@@ -42,11 +42,13 @@
 		return vars;
 	}
 	
-	var DNA = getUrlVars()["dna"];
+	var DNA_raw = getUrlVars()["dna"];
 	
-	if (DNA == undefined) {
-		DNA = "000000000";
+	if (DNA_raw == undefined) {
+		DNA_raw = "0-1-1-1-1-1-1-1-1";
 	}
+	
+	var DNA = DNA_raw.split("-");
 	
 	var Token_ID = getUrlVars()["id"];
 	
