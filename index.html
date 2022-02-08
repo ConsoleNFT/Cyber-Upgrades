@@ -6,6 +6,7 @@
 	<link rel="stylesheet" href="style.css">
 	<script type="module">
 
+	/*
 	import * as THREE from 'https://threejsfundamentals.org/threejs/resources/threejs/r115/build/three.module.js';
 	import { GLTFLoader } from 'https://threejsfundamentals.org/threejs/resources/threejs/r115/examples/jsm/loaders/GLTFLoader.js';
 	import { DRACOLoader } from 'https://threejsfundamentals.org/threejs/resources/threejs/r115/examples/jsm/loaders/DRACOLoader.js';
@@ -17,6 +18,7 @@
 	import { BloomPass } from 'https://threejsfundamentals.org/threejs/resources/threejs/r115/examples/jsm/postprocessing/BloomPass.js';
 	import { UnrealBloomPass } from 'https://threejsfundamentals.org/threejs/resources/threejs/r115/examples/jsm/postprocessing/UnrealBloomPass.js';
 	import { FXAAShader } from 'https://threejsfundamentals.org/threejs/resources/threejs/r115/examples/jsm/shaders/FXAAShader.js';
+	*/
 	
 	/*
 	import * as THREE from 'https://cdn.skypack.dev/three@0.115.0/build/three.module.js';
@@ -66,6 +68,9 @@
 	var secondAugmentIndex = DNA[7]; // secondAugment
 	var airdrops = DNA[8]; // secondAugment
 	
+	
+	
+	/*
 	var firstStat = [
         "Health",
         "Strength",
@@ -170,9 +175,17 @@
 	
 	console.log(textMessages);
 
-	var textColors = [0xFFFFFF, 0xFFFFFF, 0xFFFFFF, 0xFFFFFF, 0xFFFFFF, 0xFFFFFF];
+	var textColors = [0xffffff, 0xffffff, 0xffffff, 0xffffff, 0xffffff, 0xffffff];
 	
 	var textSize = 0.5;
+	
+	if (rarity == 3) {
+		textSize = 0.6
+	}
+	if (rarity == 4) {
+		textSize = 0.6
+	}
+	
 	
 	let PI_HALF = Math.PI / 2;
 	
@@ -196,7 +209,7 @@
 	  targetOnDown = {
 		x: 0,
 		y: 0 },
-	  distance = 12;
+	  distance = 13;
 	const center = new THREE.Vector3(0, 1, 0);
 	
 	
@@ -243,6 +256,7 @@
 
 	  camera = new THREE.PerspectiveCamera(70, window.innerWidth / window.innerHeight, 0.1, 1000)
 	  camera.position.set(10, 10, 10)
+	  // camera.position.set(5, 3, 10)
 	  camera.lookAt(scene.position)
 	  // camera.layers.enable(1);
 	  
@@ -599,6 +613,7 @@
 		if ( mixer ) mixer.update( clock.getDelta() );
 		
 		if (el.style.cursor != 'move') target.x += 0.00035;
+		
 
 		rotation.x += (target.x - rotation.x) * 0.1;
 		rotation.y += (target.y - rotation.y) * 0.1;
@@ -667,12 +682,19 @@
 		
 	init();
 	animate();
+	*/
+	
+	document.getElementById("nft").src="previews/" + rarity + ".jpg";
+	
+	
 	
 	</script>
 	
 </head>
 <body class="nft">
-
+	
+	<!--
+	
 	<div id="loading">
 		<div class="loader_text"><span id="loader_percentage">0</span>%</div>
 		<div class="loader_container">
@@ -682,7 +704,8 @@
 	</div>
 
 	<video id="video" playsinline webkit-playsinline muted loop autoplay width="600" height="250" src="video.mp4" style="display: none" crossorigin="anonymous"></video>
-
+	-->
+	<img id="nft" src="" style="width: 100%; height: auto;"/>
 
 </body>
 </html>
